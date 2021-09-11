@@ -1,0 +1,119 @@
+{
+  "name": "waterctl",
+  "version": "0.1.2",
+  "module": "./dist/index.js",
+  "exports": {
+    "import": "./dist/index.js"
+  },
+  "types": "./dist/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
+  "description": "Control interface for Changgong BLE hydrovalve.",
+  "keywords": [
+    "water",
+    "hydrovalve",
+    "changgong",
+    "bluetooth",
+    "ble",
+    "web-bluetooth"
+  ],
+  "repository": "https://github.com/ch0w0/waterctl.git",
+  "author": "ch0w0 <npm@ch0.link>",
+  "license": "MIT",
+  "devDependencies": {
+    "@commitlint/cli": "^13.1.0",
+    "@commitlint/config-conventional": "^13.1.0",
+    "@tsconfig/recommended": "^1.0.1",
+    "@types/web-bluetooth": "^0.0.11",
+    "@typescript-eslint/eslint-plugin": "^4.31.0",
+    "browserslist": "^4.17.0",
+    "esbuild": "^0.12.26",
+    "eslint": "^7.32.0",
+    "eslint-config-standard-with-typescript": "^21.0.1",
+    "eslint-plugin-import": "^2.24.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.1.0",
+    "eslint-plugin-tsdoc": "^0.2.14",
+    "eslint-plugin-unicorn": "^35.0.0",
+    "husky": "^7.0.2",
+    "lint-staged": "^11.1.2",
+    "prettier": "^2.4.0",
+    "rimraf": "^3.0.2",
+    "standard-version": "^9.3.1",
+    "ts-standard": "^10.0.0",
+    "type-fest": "^2.3.2",
+    "typedoc": "^0.22.1",
+    "typescript": "^4.4.2"
+  },
+  "browserslist": [
+    "> .5% in CN and supports web-bluetooth",
+    "last 2 chrome versions",
+    "iOS >= 12.4"
+  ],
+  "dependencies": {
+    "crc-full": "^1.1.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": [
+        "lint-staged"
+      ],
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "prettier": {
+    "trailingComma": "es5",
+    "tabWidth": 2,
+    "semi": false,
+    "singleQuote": true
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx}": [
+      "yarn lint"
+    ],
+    "*.{json,md,yml}": [
+      "prettier --write"
+    ]
+  },
+  "eslintConfig": {
+    "extends": [
+      "standard-with-typescript",
+      "plugin:unicorn/recommended"
+    ],
+    "plugins": [
+      "eslint-plugin-tsdoc"
+    ],
+    "rules": {
+      "tsdoc/syntax": "warn"
+    },
+    "parserOptions": {
+      "project": "tsconfig.json"
+    },
+    "ignorePatterns": [
+      "dist/**/*.js",
+      "docs/**/"
+    ]
+  },
+  "scripts": {
+    "start": "yarn build:watch",
+    "start:node": "yarn build:node --watch",
+    "build": "yarn clean && yarn build:esm && yarn build:iife",
+    "build:esm": "tsc",
+    "build:iife": "esbuild --bundle src/index.ts --outfile=dist/index.iife.js --sourcemap",
+    "lint": "eslint ./src --fix",
+    "pretty": "prettier src/**/* --write",
+    "prerelease": "yarn build",
+    "release": "standard-version",
+    "postrelease": "git push --follow-tags",
+    "types:check": "tsc --noEmit",
+    "types:watch": "yarn types:check --watch",
+    "clean": "rimraf dist",
+    "docs": "typedoc"
+  }
+}
