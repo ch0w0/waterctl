@@ -1,6 +1,6 @@
 {
   "name": "waterctl",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "module": "./dist/index.js",
   "exports": {
     "import": "./dist/index.js"
